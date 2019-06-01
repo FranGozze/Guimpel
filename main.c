@@ -36,35 +36,52 @@ Lista insertar(Lista inicio, Invitado Invitado)
 }
 //revisar mucho(parece que siempre hay un nodo de mas)(me tira muchos cortes)(en algunas pruebas me da 1 de mas, y en la proxima(sin cambiar nada), me da justo)
 Lista Leer(FILE *fp,Lista Inicio){
-          char c=fgetc(fp);
-          if(c!=EOF){
+
+          if(fgetc(fp)!=EOF){
 
             Inicio=NULL;
-            char dni[10],nombre[20],apellido[20],cargo[100];
+            char dni[9],nombre[20],apellido[20],cargo[100],basura[5];
             int prioridad;
-            fscanf(fp,"%s",dni);
-            fscanf(fp,"%s",nombre);
-            //fscanf(fp,"%s",apellido);
-            //fscanf(fp,"%s",cargo);
-            //fscanf(fp,"%d",&prioridad);
+            fscanf(fp,"%[^',']",dni);
+            fscanf(fp,"%s",basura);
+            fscanf(fp,"%[^',']",nombre);
+            fscanf(fp,"%s",basura);
+            fscanf(fp,"%[^',']",apellido);
+            fscanf(fp,"%s",basura);
+            fscanf(fp,"%[^',']",cargo);
+            fscanf(fp,"%s",basura);
+            fscanf(fp,"%d",&prioridad);
+
+             /*
             printf("%s\n",dni);
             printf("%s\n",nombre);
+            printf("%s\n",apellido);
+            printf("%s\n",cargo);
+            printf("%d\n",prioridad);
+ */
             Invitado invitado=malloc(sizeof(Invitado));
-            invitado->dni=malloc(sizeof(char)*(strlen(dni)+1));
+            invitado->dni=malloc(sizeof(char)*9);
             strcpy(invitado->dni,dni);
+            printf("hola:%s\n",invitado->dni);
             invitado->nombre=malloc(sizeof(char)*(strlen(nombre)+1));
             strcpy(invitado->nombre,nombre);
             invitado->apellido=malloc(sizeof(char)*(strlen(apellido)+1));
             strcpy(invitado->apellido,apellido);
             invitado->descripcionCargo=malloc(sizeof(char)*(strlen(cargo)+1));
             strcpy(invitado->descripcionCargo,cargo);
+         //   printf("%s\n",invitado->descripcionCargo);
             invitado->prioridad = malloc(sizeof(int));
             invitado->prioridad=prioridad;
             Inicio=insertar(Inicio,invitado);
-            //Inicio->sig=Leer(fp,Inicio->sig);
+            Inicio->sig=Leer(fp,Inicio->sig);;
+
           }
           else
+          {
+              printf("Pvto");
           Inicio=NULL;
+          }
+
   return Inicio;
 }
 Invitado Comparar_Prioridad(Invitado invitado1,Invitado Invitado2)
@@ -97,7 +114,12 @@ void mostrar(Lista Inicio)
     {
     if(Inicio!=NULL)
         {
-            printf("%s %s %s %d \n",Inicio->invitado->dni,Inicio->invitado->nombre,Inicio->invitado->apellido,Inicio->invitado->prioridad);
+            printf("%s",Inicio->invitado->dni);
+            printf("%s",Inicio->invitado->nombre);
+            printf("%s",Inicio->invitado->apellido);
+            printf("%s",Inicio->invitado->descripcionCargo);
+            printf(" %d\n",Inicio->invitado->prioridad);
+
             mostrar(Inicio->sig);
         }
     }
@@ -113,7 +135,7 @@ int main()
   Lista_inivatados_Ordenada=malloc(sizeof(Lista)*list_longitud(Lista_Invitados_Sin_Ordenar));
   //printf("%d\n",list_longitud(Lista_Invitados_Sin_Ordenar));//esta para corroborar cantidad de nodos de la lista
   //Lista_inivatados_Ordenada=Ordenar_Por_Prioridad(Lista_Invitados_Sin_Ordenar,Total);
-  //mostrar(Lista_Invitados_Sin_Ordenar);
+  mostrar(Lista_Invitados_Sin_Ordenar);
 
   fclose(fp);
 }
