@@ -59,10 +59,10 @@ Lista Leer(FILE *fp,Lista Inicio){
             printf("%s\n",cargo);
             printf("%d\n",prioridad);
  */
-            Invitado invitado=malloc(sizeof(Invitado));
-            invitado->dni=malloc(sizeof(char)*9);
+            Invitado invitado=malloc(sizeof(_Invitado));
+            invitado->dni=malloc(sizeof(char)*(strlen(dni)+1));
             strcpy(invitado->dni,dni);
-            printf("hola:%s\n",invitado->dni);
+    //        printf("hola:%s\n",invitado->dni);
             invitado->nombre=malloc(sizeof(char)*(strlen(nombre)+1));
             strcpy(invitado->nombre,nombre);
             invitado->apellido=malloc(sizeof(char)*(strlen(apellido)+1));
